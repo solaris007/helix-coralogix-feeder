@@ -33,14 +33,17 @@ async function run(request, context) {
     log,
   } = context;
 
-  if (event?.awslogs?.data) {
-    const payload = Buffer.from(event.awslogs.data, 'base64');
-    const uncompressed = await gunzip(payload);
-    const result = JSON.parse(uncompressed.toString());
-
-    const logger = new CoralogixLogger(apiKey, result.logGroup);
-    log.info('Event Data:', JSON.stringify(result, null, 2));
+  if (!event?.awslogs?.data) {
+    return new Response('', { status: 204 });
   }
+
+  const payload = Buffer.from(event.awslogs.data, 'base64');
+  const uncompressed = await gunzip(payload);
+  const result = JSON.parse(uncompressed.toString());
+  log.info(`Received ${result.logEvents.length} events for ${result.logGroup}`);
+
+  const logger = new CoralogixLogger(apiKey, result.logGroup);
+  await logger.sendEvents(result.logEvents);
   return new Response('', { status: 204 });
 }
 

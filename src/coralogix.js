@@ -25,4 +25,9 @@ export class CoralogixLogger {
     const [,,, longFuncName] = logGroup.split('/');
     [this._subsystem, this._funcName] = longFuncName.split('--');
   }
+
+  // eslint-disable-next-line class-methods-use-this, no-unused-vars
+  async sendEvents(events) {
+    return Promise.resolve();
+  }
 }
