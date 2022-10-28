@@ -14,21 +14,78 @@
 import assert from 'assert';
 import { Request } from '@adobe/fetch';
 import { main } from '../src/index.js';
+import { Nock } from './utils.js';
 
 describe('Index Tests', () => {
+  let nock;
+  beforeEach(() => {
+    nock = new Nock();
+  });
+
+  afterEach(() => {
+    nock.done();
+  });
+
   it('invokes index without payload', async () => {
-    const result = await main(new Request('https://localhost/'), {
+    const resp = await main(new Request('https://localhost/'), {
       invocation: {
         event: {},
       },
       env: {},
     });
-    assert.strictEqual(result.status, 204);
+    assert.strictEqual(resp.status, 204);
   });
 
   it('invokes index with payload', async () => {
     const payload = 'H4sIAAFPWWMAA92WS2/bMAzH7/0UQc51QlKiROVWYGmxw7ZDe1pTFIqtpAYSJ7OdNkPR7z45rz62AgnaDth8ksCHqD9/oHx/1Ipfexqqyo/Dxc95aPda7U8nFyfXX/rn5ydn/fbx2mV2V4SyMSKKVmwMoXZb42Q2Pitni3lj7/q7qjvx02Hmuzdhki+TKpS3eRqqJMmLLCxjmsew87oMftrEERB1EbrE3Utj1JVYG0ZG+5DZVLMBMZkGj1kw6LWk6TZJtRhWaZnP63xWnOaTOpRVTHe5Mq4cNocmTx3bK/PVYx3921DUzwPvd6t1mqypUlk0IgrYoGU2UQjUBqyQdUhaIWpCg+IAxLHRwspFM2yV2mWr86h57aeNZGiMsSAA7IRe+G06sxUoQUiIL1D3yPQ0d2LA90GN3mvnCJPUDSXRgGniRsonIyInzg+FgQf156+n3wZ1Oit9vG++7LVGk0V1kxfjFrbmociaVRl+LGJdVafTGRQvaw7LuvRpHbLTPEyyRqznEq2dGiGbct963CrbxuF6Lf4+9/xTlqdivypj+1ncw273cLwvEUopcSJMyoJiIGTWAmgF2ZEWJEUKrRW2ELd7EWGA1SFEmA4wvgMR8FuLWtmsCB8Ixd4n/j0u1mK+lQvTdFwp5Dg4kYUYnVgyBhxqceSs5mZSRHBiuzXqfbjAmEsO4IKxEwMiF5lFZ0MKCXqkqJTNElGpTtg3I8t7TjX8D5Nin3seTsRGxrcT4WKflbEkBBxfiPi6WbSKHVojSki0Fgsa4jMYzS/RfYUI4gOJILbvQMS/NSk+jItGzFe5WP9sHD0c/QIdNIXebwkAAA==';
-    const result = await main(new Request('https://localhost/'), {
+    nock('https://api.coralogix.com')
+      .post('/api/v1/logs')
+      .reply((_, body) => {
+        assert.deepStrictEqual(body.logEntries, [{
+          timestamp: 1666708005982,
+          text: JSON.stringify({
+            inv: {
+              functionName: 'indexer',
+              requestId: '1aa49921-c9b8-401c-9f3a-f22989ab8505',
+              message: 'coralogix: flushing 1 pending requests...\n',
+            },
+          }),
+          severity: 3,
+        }, {
+          timestamp: 1666708006053,
+          text: JSON.stringify({
+            inv: {
+              functionName: 'indexer',
+              requestId: '1aa49921-c9b8-401c-9f3a-f22989ab8505',
+              message: 'coralogix: flushing 0 pending requests done.\n',
+            },
+          }),
+          severity: 3,
+        }, {
+          timestamp: 1666708011188,
+          text: JSON.stringify({
+            inv: {
+              functionName: 'indexer',
+              requestId: 'd7197ec0-1a12-407d-83c4-5a8900aa5c40',
+              message: 'coralogix: flushing 1 pending requests...\n',
+            },
+          }),
+          severity: 3,
+        }, {
+          timestamp: 1666708011258,
+          text: JSON.stringify({
+            inv: {
+              functionName: 'indexer',
+              requestId: 'd7197ec0-1a12-407d-83c4-5a8900aa5c40',
+              message: 'coralogix: flushing 0 pending requests done.\n',
+            },
+          }),
+          severity: 3,
+        }]);
+        return [200];
+      });
+
+    const resp = await main(new Request('https://localhost/'), {
       invocation: {
         event: {
           awslogs: {
@@ -37,9 +94,9 @@ describe('Index Tests', () => {
         },
       },
       env: {
-        CORALOGIX_API_KEY: 'foo',
+        CORALOGIX_API_KEY: 'foo-id',
       },
     });
-    assert.strictEqual(result.status, 204);
+    assert.strictEqual(resp.status, 200, await resp.text());
   });
 });

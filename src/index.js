@@ -39,12 +39,18 @@ async function run(request, context) {
 
   const payload = Buffer.from(event.awslogs.data, 'base64');
   const uncompressed = await gunzip(payload);
-  const result = JSON.parse(uncompressed.toString());
-  log.info(`Received ${result.logEvents.length} events for ${result.logGroup}`);
+  const input = JSON.parse(uncompressed.toString());
+  log.info(`Received ${input.logEvents.length} events for ${input.logGroup}`);
 
-  const logger = new CoralogixLogger(apiKey, result.logGroup);
-  await logger.sendEvents(result.logEvents);
-  return new Response('', { status: 204 });
+  const logger = new CoralogixLogger(apiKey, input.logGroup);
+  const resp = await logger.sendEntries(input.logEvents);
+
+  if (!resp.ok) {
+    const msg = `Failed to send logs with status ${resp.status}: ${await resp.text()}`;
+    log.warn(msg);
+    return new Response(msg, { status: resp.status });
+  }
+  return resp;
 }
 
 export const main = wrap(run)
