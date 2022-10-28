@@ -62,9 +62,9 @@ async function run(request, context) {
     }
     return resp;
   } catch (e) {
-    log.error(`Unexpected failure: ${e}`);
+    log.error('Unexpected failure', e);
     return new Response(e.message, { status: 500 });
-}
+  }
 }
 
 export const main = wrap(run)
