@@ -9,6 +9,7 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
+import { hostname } from 'os';
 import path from 'path';
 import { Request, Response } from '@adobe/fetch';
 import { fetchContext } from './support/utils.js';
@@ -32,6 +33,7 @@ export class CoralogixLogger {
     this._apiKey = apiKey;
     this._appName = appName;
     this._apiUrl = apiUrl;
+    this._host = hostname();
 
     const [,,, longFuncName] = logGroup.split('/');
     [this._subsystem, this._funcName] = longFuncName.split('--');
@@ -51,10 +53,10 @@ export class CoralogixLogger {
           level: level.toLowerCase(),
           timestamp: extractedFields.timestamp,
         }),
-        severity: LOG_LEVEL_MAPPING[level] || 3,
+        severity: LOG_LEVEL_MAPPING[level] || LOG_LEVEL_MAPPING.INFO,
       };
     });
-    const body = {
+    const payload = {
       privateKey: this._apiKey,
       applicationName: this._appName,
       subsystemName: this._subsystem,
@@ -68,7 +70,7 @@ export class CoralogixLogger {
         headers: {
           'content-type': 'application/json',
         },
-        body: JSON.stringify(body),
+        body: JSON.stringify(payload),
       }));
       return resp;
     } catch (e) {

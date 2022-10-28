@@ -48,55 +48,62 @@ describe('Index Tests', () => {
     nock('https://api.coralogix.com')
       .post('/api/v1/logs')
       .reply((_, body) => {
-        assert.deepStrictEqual(body.logEntries, [{
-          timestamp: 1666708005982,
-          text: JSON.stringify({
-            inv: {
-              functionName: 'indexer',
-              requestId: '1aa49921-c9b8-401c-9f3a-f22989ab8505',
-            },
-            message: 'coralogix: flushing 1 pending requests...\n',
-            level: 'info',
-            timestamp: '2022-10-25T14:26:45.982Z',
-          }),
-          severity: 3,
-        }, {
-          timestamp: 1666708006053,
-          text: JSON.stringify({
-            inv: {
-              functionName: 'indexer',
-              requestId: '1aa49921-c9b8-401c-9f3a-f22989ab8505',
-            },
-            message: 'coralogix: flushing 0 pending requests done.\n',
-            level: 'info',
-            timestamp: '2022-10-25T14:26:46.051Z',
-          }),
-          severity: 3,
-        }, {
-          timestamp: 1666708011188,
-          text: JSON.stringify({
-            inv: {
-              functionName: 'indexer',
-              requestId: 'd7197ec0-1a12-407d-83c4-5a8900aa5c40',
-            },
-            message: 'coralogix: flushing 1 pending requests...\n',
-            level: 'info',
-            timestamp: '2022-10-25T14:26:51.188Z',
-          }),
-          severity: 3,
-        }, {
-          timestamp: 1666708011258,
-          text: JSON.stringify({
-            inv: {
-              functionName: 'indexer',
-              requestId: 'd7197ec0-1a12-407d-83c4-5a8900aa5c40',
-            },
-            message: 'coralogix: flushing 0 pending requests done.\n',
-            level: 'info',
-            timestamp: '2022-10-25T14:26:51.257Z',
-          }),
-          severity: 3,
-        }]);
+        // eslint-disable-next-line no-param-reassign
+        delete body.computerName;
+        assert.deepStrictEqual(body, {
+          applicationName: 'my-app',
+          logEntries: [{
+            timestamp: 1666708005982,
+            text: JSON.stringify({
+              inv: {
+                functionName: 'indexer',
+                requestId: '1aa49921-c9b8-401c-9f3a-f22989ab8505',
+              },
+              message: 'coralogix: flushing 1 pending requests...\n',
+              level: 'info',
+              timestamp: '2022-10-25T14:26:45.982Z',
+            }),
+            severity: 3,
+          }, {
+            timestamp: 1666708006053,
+            text: JSON.stringify({
+              inv: {
+                functionName: 'indexer',
+                requestId: '1aa49921-c9b8-401c-9f3a-f22989ab8505',
+              },
+              message: 'coralogix: flushing 0 pending requests done.\n',
+              level: 'info',
+              timestamp: '2022-10-25T14:26:46.051Z',
+            }),
+            severity: 3,
+          }, {
+            timestamp: 1666708011188,
+            text: JSON.stringify({
+              inv: {
+                functionName: 'indexer',
+                requestId: 'd7197ec0-1a12-407d-83c4-5a8900aa5c40',
+              },
+              message: 'coralogix: flushing 1 pending requests...\n',
+              level: 'info',
+              timestamp: '2022-10-25T14:26:51.188Z',
+            }),
+            severity: 3,
+          }, {
+            timestamp: 1666708011258,
+            text: JSON.stringify({
+              inv: {
+                functionName: 'indexer',
+                requestId: 'd7197ec0-1a12-407d-83c4-5a8900aa5c40',
+              },
+              message: 'coralogix: flushing 0 pending requests done.\n',
+              level: 'info',
+              timestamp: '2022-10-25T14:26:51.257Z',
+            }),
+            severity: 3,
+          }],
+          privateKey: 'foo-id',
+          subsystemName: 'helix-services',
+        });
         return [200];
       });
 
