@@ -31,6 +31,9 @@ describe('Index Tests', () => {
       invocation: {
         event: {},
       },
+      func: {
+        app: 'my-app',
+      },
       env: {},
     });
     assert.strictEqual(resp.status, 204);
@@ -47,8 +50,10 @@ describe('Index Tests', () => {
             inv: {
               functionName: 'indexer',
               requestId: '1aa49921-c9b8-401c-9f3a-f22989ab8505',
-              message: 'coralogix: flushing 1 pending requests...\n',
             },
+            message: 'coralogix: flushing 1 pending requests...\n',
+            level: 'INFO',
+            timestamp: '2022-10-25T14:26:45.982Z',
           }),
           severity: 3,
         }, {
@@ -57,8 +62,10 @@ describe('Index Tests', () => {
             inv: {
               functionName: 'indexer',
               requestId: '1aa49921-c9b8-401c-9f3a-f22989ab8505',
-              message: 'coralogix: flushing 0 pending requests done.\n',
             },
+            message: 'coralogix: flushing 0 pending requests done.\n',
+            level: 'INFO',
+            timestamp: '2022-10-25T14:26:46.051Z',
           }),
           severity: 3,
         }, {
@@ -67,8 +74,10 @@ describe('Index Tests', () => {
             inv: {
               functionName: 'indexer',
               requestId: 'd7197ec0-1a12-407d-83c4-5a8900aa5c40',
-              message: 'coralogix: flushing 1 pending requests...\n',
             },
+            message: 'coralogix: flushing 1 pending requests...\n',
+            level: 'INFO',
+            timestamp: '2022-10-25T14:26:51.188Z',
           }),
           severity: 3,
         }, {
@@ -77,8 +86,10 @@ describe('Index Tests', () => {
             inv: {
               functionName: 'indexer',
               requestId: 'd7197ec0-1a12-407d-83c4-5a8900aa5c40',
-              message: 'coralogix: flushing 0 pending requests done.\n',
             },
+            message: 'coralogix: flushing 0 pending requests done.\n',
+            level: 'INFO',
+            timestamp: '2022-10-25T14:26:51.257Z',
           }),
           severity: 3,
         }]);
@@ -92,6 +103,9 @@ describe('Index Tests', () => {
             data: payload,
           },
         },
+      },
+      func: {
+        app: 'my-app',
       },
       env: {
         CORALOGIX_API_KEY: 'foo-id',

@@ -11,7 +11,6 @@
  */
 import path from 'path';
 import { Request, Response } from '@adobe/fetch';
-import { hostname } from 'os';
 import { fetch } from './support/utils.js';
 
 const LOG_LEVEL_MAPPING = {
@@ -25,14 +24,13 @@ const LOG_LEVEL_MAPPING = {
 };
 
 export class CoralogixLogger {
-  constructor(apiKey, logGroup, opts = {}) {
+  constructor(apiKey, logGroup, appName, opts = {}) {
     const {
-      host = hostname(),
       apiUrl = 'https://api.coralogix.com/api/v1/',
     } = opts;
 
     this._apiKey = apiKey;
-    this._host = host;
+    this._appName = appName;
     this._apiUrl = apiUrl;
 
     const [,,, longFuncName] = logGroup.split('/');
@@ -49,15 +47,17 @@ export class CoralogixLogger {
           inv: {
             functionName: this._funcName,
             requestId: extractedFields.request_id || 'n/a',
-            message,
           },
+          message,
+          level,
+          timestamp: extractedFields.timestamp,
         }),
         severity: LOG_LEVEL_MAPPING[level] || 3,
       };
     });
     const body = {
       privateKey: this._apiKey,
-      applicationName: this._host,
+      applicationName: this._appName,
       subsystemName: this._subsystem,
       computerName: this._host,
       logEntries,

@@ -30,6 +30,9 @@ async function run(request, context) {
     env: {
       CORALOGIX_API_KEY: apiKey,
     },
+    func: {
+      app,
+    },
     log,
   } = context;
 
@@ -42,7 +45,7 @@ async function run(request, context) {
   const input = JSON.parse(uncompressed.toString());
   log.info(`Received ${input.logEvents.length} events for ${input.logGroup}`);
 
-  const logger = new CoralogixLogger(apiKey, input.logGroup);
+  const logger = new CoralogixLogger(apiKey, input.logGroup, app);
   const resp = await logger.sendEntries(input.logEvents);
 
   if (!resp.ok) {
