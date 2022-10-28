@@ -11,7 +11,7 @@
  */
 import path from 'path';
 import { Request, Response } from '@adobe/fetch';
-import { fetch } from './support/utils.js';
+import { fetchContext } from './support/utils.js';
 
 const LOG_LEVEL_MAPPING = {
   ERROR: 5,
@@ -63,13 +63,15 @@ export class CoralogixLogger {
       logEntries,
     };
     try {
-      return fetch(new Request(path.join(this._apiUrl, '/logs'), {
+      const { fetch } = fetchContext;
+      const resp = await fetch(new Request(path.join(this._apiUrl, '/logs'), {
         method: 'POST',
         headers: {
           'content-type': 'application/json',
         },
         body: JSON.stringify(body),
       }));
+      return resp;
     } catch (e) {
       return new Response(e.message, {
         status: 500,
@@ -78,6 +80,9 @@ export class CoralogixLogger {
           'cache-control': 'no-store, private, must-revalidate',
         },
       });
+      /* c8 ignore next 3 */
+    } finally {
+      await fetchContext.reset();
     }
   }
 }

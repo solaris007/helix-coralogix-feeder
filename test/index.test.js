@@ -12,9 +12,13 @@
 
 /* eslint-env mocha */
 import assert from 'assert';
+import util from 'util';
+import zlib from 'zlib';
 import { Request } from '@adobe/fetch';
 import { main } from '../src/index.js';
 import { Nock } from './utils.js';
+
+const gzip = util.promisify(zlib.gzip);
 
 describe('Index Tests', () => {
   let nock;
@@ -112,5 +116,43 @@ describe('Index Tests', () => {
       },
     });
     assert.strictEqual(resp.status, 200, await resp.text());
+  });
+
+  it('returns error when posting fails', async () => {
+    const payload = (await gzip(JSON.stringify({
+      logEvents: [{
+        timestamp: Date.now(),
+        extractedFields: {
+          event: 'INFO\tmessage\n',
+        },
+      }],
+      logGroup: '/aws/lambda/services--func',
+    }))).toString('base64');
+
+    nock('https://api.coralogix.com/api/v1/')
+      .post('/logs')
+      .replyWithError('that went wrong');
+
+    const resp = await main(new Request('https://localhost/'), {
+      invocation: {
+        event: {
+          awslogs: {
+            data: payload,
+          },
+        },
+      },
+      func: {
+        app: 'my-app',
+      },
+      env: {
+        CORALOGIX_API_KEY: 'foo-id',
+      },
+    });
+
+    assert.strictEqual(resp.status, 500);
+    assert.strictEqual(
+      await resp.text(),
+      'Failed to send logs with status 500: that went wrong',
+    );
   });
 });

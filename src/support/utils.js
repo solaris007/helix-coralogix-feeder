@@ -9,22 +9,13 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import { context as fetchContext, h1 } from '@adobe/fetch';
+import { context, h1 } from '@adobe/fetch';
 
 /* c8 ignore next 7 */
-export const { fetch } = process.env.HELIX_FETCH_FORCE_HTTP1
+export const fetchContext = process.env.HELIX_FETCH_FORCE_HTTP1
   ? h1({
     userAgent: 'adobe-fetch', // static user-agent for recorded tests
   })
-  : fetchContext({
+  : context({
     userAgent: 'adobe-fetch', // static user-agent for recorded tests
   });
-
-/**
- * Cleans up a header value by stripping invalid characters and truncating to 1024 chars
- * @param {string} value a header value
- * @returns a valid header value
- */
-export function cleanupHeaderValue(value) {
-  return value.replace(/[^\t\u0020-\u007E\u0080-\u00FF]/g, '').substr(0, 1024);
-}
