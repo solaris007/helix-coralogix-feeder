@@ -37,7 +37,6 @@ export class CoralogixLogger {
     [this._subsystem, this._funcName] = longFuncName.split('--');
   }
 
-  // eslint-disable-next-line class-methods-use-this, no-unused-vars
   async sendEntries(entries) {
     const logEntries = entries.map(({ timestamp, extractedFields }) => {
       const [level, message] = extractedFields.event.split('\t');
