@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/adobe/helix-coralogix-feeder/compare/v1.0.0...v1.0.1) (2022-10-28)
+
+
+### Bug Fixes
+
+* use alias in function name ([#2](https://github.com/adobe/helix-coralogix-feeder/issues/2)) ([8a6d392](https://github.com/adobe/helix-coralogix-feeder/commit/8a6d392d494ac5f33e4cdcc553961696e8bfcfe6))
+
 # 1.0.0 (2022-10-28)
 
 
