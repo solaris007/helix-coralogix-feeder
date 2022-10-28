@@ -1,3 +1,11 @@
+## [1.0.2](https://github.com/adobe/helix-coralogix-feeder/compare/v1.0.1...v1.0.2) (2022-10-28)
+
+
+### Bug Fixes
+
+* add stack for unexpected error ([169e99c](https://github.com/adobe/helix-coralogix-feeder/commit/169e99c6e845dd9095a00d773ae37cae0251fd3a))
+* catch outer errors ([366258b](https://github.com/adobe/helix-coralogix-feeder/commit/366258b101e7bfa7e8e616c4f0e0a6847d4c3780))
+
 ## [1.0.1](https://github.com/adobe/helix-coralogix-feeder/compare/v1.0.0...v1.0.1) (2022-10-28)
 
 
