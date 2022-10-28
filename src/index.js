@@ -41,25 +41,30 @@ async function run(request, context) {
     return new Response('', { status: 204 });
   }
 
-  const payload = Buffer.from(event.awslogs.data, 'base64');
-  const uncompressed = await gunzip(payload);
-  const input = JSON.parse(uncompressed.toString());
-  log.info(`Received ${input.logEvents.length} events for ${input.logGroup}`);
+  try {
+    const payload = Buffer.from(event.awslogs.data, 'base64');
+    const uncompressed = await gunzip(payload);
+    const input = JSON.parse(uncompressed.toString());
+    log.info(`Received ${input.logEvents.length} events for ${input.logGroup}`);
 
-  const [,,, funcName] = input.logGroup.split('/');
-  const [, funcVersion] = input.logStream.match(/\d{4}\/\d{2}\/\d{2}\/\[(\d+)\]\w+/);
-  const alias = await resolve(context, funcName, funcVersion);
-  const [packageName, serviceName] = funcName.split('--');
+    const [,,, funcName] = input.logGroup.split('/');
+    const [, funcVersion] = input.logStream.match(/\d{4}\/\d{2}\/\d{2}\/\[(\d+)\]\w+/);
+    const alias = await resolve(context, funcName, funcVersion);
+    const [packageName, serviceName] = funcName.split('--');
 
-  const logger = new CoralogixLogger(apiKey, `/${packageName}/${serviceName}/${alias ?? funcVersion}`, app);
-  const resp = await logger.sendEntries(input.logEvents);
+    const logger = new CoralogixLogger(apiKey, `/${packageName}/${serviceName}/${alias ?? funcVersion}`, app);
+    const resp = await logger.sendEntries(input.logEvents);
 
-  if (!resp.ok) {
-    const msg = `Failed to send logs with status ${resp.status}: ${await resp.text()}`;
-    log.warn(msg);
-    return new Response(msg, { status: resp.status });
-  }
-  return resp;
+    if (!resp.ok) {
+      const msg = `Failed to send logs with status ${resp.status}: ${await resp.text()}`;
+      log.warn(msg);
+      return new Response(msg, { status: resp.status });
+    }
+    return resp;
+  } catch (e) {
+    log.error(`Unexpected failure: ${e}`);
+    return new Response(e.message, { status: 500 });
+}
 }
 
 export const main = wrap(run)

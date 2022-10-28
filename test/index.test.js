@@ -198,6 +198,39 @@ describe('Index Tests', () => {
     assert.strictEqual(resp.status, 200);
   });
 
+  it('returns error when environment is bad', async () => {
+    const payload = (await gzip(JSON.stringify({
+      logEvents: [{
+        timestamp: Date.now(),
+        extractedFields: {
+          event: 'INFO\tmessage\n',
+        },
+      }],
+      logGroup: '/aws/lambda/services--func',
+      logStream: '2022/10/28/[356]dbbf94bd5cb34f00aa764103d8ed78f2',
+    }))).toString('base64');
+
+    const resp = await main(new Request('https://localhost/'), {
+      invocation: {
+        event: {
+          awslogs: {
+            data: payload,
+          },
+        },
+      },
+      func: {
+        app: 'my-app',
+      },
+      env: {},
+    });
+
+    assert.strictEqual(resp.status, 500);
+    assert.match(
+      await resp.text(),
+      /^Missing AWS configuration/,
+    );
+  });
+
   it('returns error when posting fails', async () => {
     const payload = (await gzip(JSON.stringify({
       logEvents: [{
