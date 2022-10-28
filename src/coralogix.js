@@ -49,7 +49,7 @@ export class CoralogixLogger {
             requestId: extractedFields.request_id || 'n/a',
           },
           message,
-          level,
+          level: level.toLowerCase(),
           timestamp: extractedFields.timestamp,
         }),
         severity: LOG_LEVEL_MAPPING[level] || 3,
