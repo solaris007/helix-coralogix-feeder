@@ -1,3 +1,10 @@
+## [1.0.3](https://github.com/adobe/helix-coralogix-feeder/compare/v1.0.2...v1.0.3) (2022-10-28)
+
+
+### Bug Fixes
+
+* needs specific role ([fa80b7f](https://github.com/adobe/helix-coralogix-feeder/commit/fa80b7fb81836e6bbb1a19d841ccdf4700d34715))
+
 ## [1.0.2](https://github.com/adobe/helix-coralogix-feeder/compare/v1.0.1...v1.0.2) (2022-10-28)
 
 
