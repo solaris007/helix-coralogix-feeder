@@ -1,3 +1,10 @@
+## [1.0.4](https://github.com/adobe/helix-coralogix-feeder/compare/v1.0.3...v1.0.4) (2022-10-29)
+
+
+### Bug Fixes
+
+* use invocationId instead of requestId ([d2504f9](https://github.com/adobe/helix-coralogix-feeder/commit/d2504f972866ce5f82cfeede917b36276908d6cb))
+
 ## [1.0.3](https://github.com/adobe/helix-coralogix-feeder/compare/v1.0.2...v1.0.3) (2022-10-28)
 
 
