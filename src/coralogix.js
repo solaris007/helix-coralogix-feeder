@@ -46,8 +46,8 @@ export class CoralogixLogger {
         timestamp,
         text: JSON.stringify({
           inv: {
+            invocationId: extractedFields.request_id || 'n/a',
             functionName: this._funcName,
-            requestId: extractedFields.request_id || 'n/a',
           },
           message,
           level: level.toLowerCase(),

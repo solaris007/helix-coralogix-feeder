@@ -75,8 +75,8 @@ describe('Index Tests', () => {
             timestamp: 1666708005982,
             text: JSON.stringify({
               inv: {
+                invocationId: '1aa49921-c9b8-401c-9f3a-f22989ab8505',
                 functionName: '/helix-services/indexer/v4',
-                requestId: '1aa49921-c9b8-401c-9f3a-f22989ab8505',
               },
               message: 'coralogix: flushing 1 pending requests...\n',
               level: 'info',
@@ -87,8 +87,8 @@ describe('Index Tests', () => {
             timestamp: 1666708006053,
             text: JSON.stringify({
               inv: {
+                invocationId: '1aa49921-c9b8-401c-9f3a-f22989ab8505',
                 functionName: '/helix-services/indexer/v4',
-                requestId: '1aa49921-c9b8-401c-9f3a-f22989ab8505',
               },
               message: 'coralogix: flushing 0 pending requests done.\n',
               level: 'info',
@@ -99,8 +99,8 @@ describe('Index Tests', () => {
             timestamp: 1666708011188,
             text: JSON.stringify({
               inv: {
+                invocationId: 'd7197ec0-1a12-407d-83c4-5a8900aa5c40',
                 functionName: '/helix-services/indexer/v4',
-                requestId: 'd7197ec0-1a12-407d-83c4-5a8900aa5c40',
               },
               message: 'coralogix: flushing 1 pending requests...\n',
               level: 'info',
@@ -111,8 +111,8 @@ describe('Index Tests', () => {
             timestamp: 1666708011258,
             text: JSON.stringify({
               inv: {
+                invocationId: 'd7197ec0-1a12-407d-83c4-5a8900aa5c40',
                 functionName: '/helix-services/indexer/v4',
-                requestId: 'd7197ec0-1a12-407d-83c4-5a8900aa5c40',
               },
               message: 'coralogix: flushing 0 pending requests done.\n',
               level: 'info',
@@ -169,8 +169,8 @@ describe('Index Tests', () => {
           timestamp: 1666708005982,
           text: JSON.stringify({
             inv: {
+              invocationId: '1aa49921-c9b8-401c-9f3a-f22989ab8505',
               functionName: '/services/func/356',
-              requestId: '1aa49921-c9b8-401c-9f3a-f22989ab8505',
             },
             message: 'message\n',
             level: 'info',
