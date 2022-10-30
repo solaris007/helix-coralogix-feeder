@@ -1,3 +1,10 @@
+## [1.0.5](https://github.com/adobe/helix-coralogix-feeder/compare/v1.0.4...v1.0.5) (2022-10-30)
+
+
+### Bug Fixes
+
+* remove linefeeds at the end ([#4](https://github.com/adobe/helix-coralogix-feeder/issues/4)) ([d648e27](https://github.com/adobe/helix-coralogix-feeder/commit/d648e270aa573673f109ba8cae2e7a3e1f1735ee))
+
 ## [1.0.4](https://github.com/adobe/helix-coralogix-feeder/compare/v1.0.3...v1.0.4) (2022-10-29)
 
 
