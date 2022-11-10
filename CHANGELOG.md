@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/adobe/helix-coralogix-feeder/compare/v1.0.5...v1.1.0) (2022-11-10)
+
+
+### Features
+
+* use CORALOGIX_LOG_LEVEL ([#8](https://github.com/adobe/helix-coralogix-feeder/issues/8)) ([fa10e3b](https://github.com/adobe/helix-coralogix-feeder/commit/fa10e3b7c6f2b2a32e28a4da76bdcb731747d719))
+
 ## [1.0.5](https://github.com/adobe/helix-coralogix-feeder/compare/v1.0.4...v1.0.5) (2022-10-30)
 
 
