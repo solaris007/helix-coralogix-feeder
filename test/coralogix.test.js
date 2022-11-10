@@ -38,7 +38,6 @@ describe('Coralogix Tests', () => {
       });
     const logger = new CoralogixLogger('foo-id', '/services/func/v1', 'app', {
       apiUrl: 'https://www.example.com/',
-      level: 'chatty',
     });
     const date = new Date('2022-11-10T12:53:47.204Z');
     const resp = await logger.sendEntries([
@@ -52,6 +51,76 @@ describe('Coralogix Tests', () => {
         timestamp: date.getTime(),
         extractedFields: {
           event: 'DEBUG\tthis should not be visible\n',
+        },
+      },
+    ]);
+    assert.strictEqual(resp.status, 200, await resp.text());
+  });
+
+  it('invokes constructor with unknown log level, should be treated as info', async () => {
+    nock('https://api.coralogix.com')
+      .post('/api/v1/logs')
+      .reply((_, body) => {
+        assert.deepStrictEqual(body.logEntries, [{
+          severity: 3,
+          text: '{"inv":{"invocationId":"n/a","functionName":"/services/func/v1"},"message":"this should be visible","level":"info"}',
+          timestamp: 1668084827204,
+        }]);
+        return [200];
+      });
+    const logger = new CoralogixLogger('foo-id', '/services/func/v1', 'app', {
+      level: 'chatty',
+    });
+    const date = new Date('2022-11-10T12:53:47.204Z');
+    const resp = await logger.sendEntries([
+      {
+        timestamp: date.getTime(),
+        extractedFields: {
+          event: 'INFO\tthis should be visible\n',
+        },
+      },
+      {
+        timestamp: date.getTime(),
+        extractedFields: {
+          event: 'DEBUG\tthis should not be visible\n',
+        },
+      },
+    ]);
+    assert.strictEqual(resp.status, 200, await resp.text());
+  });
+
+  it('invokes constructor with higher log level, should filter other messages', async () => {
+    nock('https://api.coralogix.com')
+      .post('/api/v1/logs')
+      .reply((_, body) => {
+        assert.deepStrictEqual(body.logEntries, [{
+          severity: 4,
+          text: '{"inv":{"invocationId":"n/a","functionName":"/services/func/v1"},"message":"this should be visible","level":"warn"}',
+          timestamp: 1668084827204,
+        }]);
+        return [200];
+      });
+    const logger = new CoralogixLogger('foo-id', '/services/func/v1', 'app', {
+      level: 'warn',
+    });
+    const date = new Date('2022-11-10T12:53:47.204Z');
+    const resp = await logger.sendEntries([
+      {
+        timestamp: date.getTime(),
+        extractedFields: {
+          event: 'WARN\tthis should be visible\n',
+        },
+      },
+      {
+        timestamp: date.getTime(),
+        extractedFields: {
+          event: 'INFO\tthis should not be visible\n',
+        },
+      },
+      {
+        timestamp: date.getTime(),
+        extractedFields: {
+          event: 'DEBUG\tthis should not be visible, either\n',
         },
       },
     ]);
