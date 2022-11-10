@@ -128,8 +128,8 @@ describe('Coralogix Tests', () => {
   });
 
   it('returns error when posting fails', async () => {
-    nock('https://api.coralogix.com/api/v1/')
-      .post('/logs')
+    nock('https://api.coralogix.com')
+      .post('/api/v1/logs')
       .replyWithError('that went wrong');
     const logger = new CoralogixLogger('foo-id', '/services/func/v1', 'app');
     const resp = await logger.sendEntries([{
