@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/adobe/helix-coralogix-feeder/compare/v1.1.0...v1.2.0) (2022-11-11)
+
+
+### Features
+
+* include logstream for better reverse lookup ([#10](https://github.com/adobe/helix-coralogix-feeder/issues/10)) ([7ca0f5a](https://github.com/adobe/helix-coralogix-feeder/commit/7ca0f5ad46b5d2db40fea3843fd20c29a6fce3e5))
+
 # [1.1.0](https://github.com/adobe/helix-coralogix-feeder/compare/v1.0.5...v1.1.0) (2022-11-10)
 
 
