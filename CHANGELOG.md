@@ -1,3 +1,11 @@
+## [1.2.2](https://github.com/adobe/helix-coralogix-feeder/compare/v1.2.1...v1.2.2) (2022-11-18)
+
+
+### Bug Fixes
+
+* include logEntries when status code reports 400 ([8ec6894](https://github.com/adobe/helix-coralogix-feeder/commit/8ec68948724b301cb9bc4ab1147056a4f741f8e7))
+* provide more details when sending fails ([f020426](https://github.com/adobe/helix-coralogix-feeder/commit/f020426ad69e9fb2ef90f16d8b8e8d3c55cc9a48))
+
 ## [1.2.1](https://github.com/adobe/helix-coralogix-feeder/compare/v1.2.0...v1.2.1) (2022-11-18)
 
 
