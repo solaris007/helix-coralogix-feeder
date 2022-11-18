@@ -1,3 +1,10 @@
+## [1.2.1](https://github.com/adobe/helix-coralogix-feeder/compare/v1.2.0...v1.2.1) (2022-11-18)
+
+
+### Bug Fixes
+
+* remove with (console) ([5c5fafd](https://github.com/adobe/helix-coralogix-feeder/commit/5c5fafd5e1852b82670b84ab25c833a591f150e0))
+
 # [1.2.0](https://github.com/adobe/helix-coralogix-feeder/compare/v1.1.0...v1.2.0) (2022-11-11)
 
 
