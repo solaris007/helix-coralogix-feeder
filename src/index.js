@@ -59,13 +59,7 @@ async function run(request, context) {
       app,
       { level, logStream: input.logStream },
     );
-    const resp = await logger.sendEntries(input.logEvents);
-
-    if (!resp.ok) {
-      const msg = `Failed to send logs with status ${resp.status}: ${await resp.text()}`;
-      return new Response(msg, { status: resp.status });
-    }
-    return resp;
+    return await logger.sendEntries(input.logEvents);
   } catch (e) {
     log.error('Unexpected failure', e);
     return new Response(e.message, { status: 500 });

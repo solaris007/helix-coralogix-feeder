@@ -80,10 +80,16 @@ export class CoralogixLogger {
         },
         body: JSON.stringify(payload),
       }));
+      if (!resp.ok) {
+        let msg = `Failed to send logs with status ${resp.status}: ${await resp.text()}`;
+        if (resp.status === 400) {
+          msg = `${msg}\nlogEntries: ${JSON.stringify(logEntries, 0, 2)}`;
+        }
+        return new Response(msg, { status: resp.status });
+      }
       return resp;
     } catch (e) {
-      const msg = `${e.message}\nlogEntries: ${JSON.stringify(logEntries, 0, 2)}`;
-      return new Response(msg, {
+      return new Response(e.message, {
         status: 500,
         headers: {
           'content-type': 'text/plain',

@@ -127,7 +127,7 @@ describe('Coralogix Tests', () => {
     assert.strictEqual(resp.status, 200, await resp.text());
   });
 
-  it('returns error when posting fails', async () => {
+  it('returns error when posting throws', async () => {
     nock('https://api.coralogix.com')
       .post('/api/v1/logs')
       .replyWithError('that went wrong');
@@ -139,6 +139,21 @@ describe('Coralogix Tests', () => {
       },
     }]);
     assert.strictEqual(resp.status, 500);
-    assert.match(await resp.text(), /^that went wrong/);
+    assert.strictEqual(await resp.text(), 'that went wrong');
+  });
+
+  it('returns error when posting returns a bad status code', async () => {
+    nock('https://api.coralogix.com')
+      .post('/api/v1/logs')
+      .reply(400, 'input malformed');
+    const logger = new CoralogixLogger('foo-id', '/services/func/v1', 'app');
+    const resp = await logger.sendEntries([{
+      timestamp: Date.now(),
+      extractedFields: {
+        event: 'INFO\tmessage\n',
+      },
+    }]);
+    assert.strictEqual(resp.status, 400);
+    assert.match(await resp.text(), /^Failed to send logs with status 400: input malformed/);
   });
 });

@@ -294,9 +294,6 @@ describe('Index Tests', () => {
     });
 
     assert.strictEqual(resp.status, 500);
-    assert.match(
-      await resp.text(),
-      /^Failed to send logs with status 500: that went wrong/,
-    );
+    assert.strictEqual(await resp.text(), 'that went wrong');
   });
 });
