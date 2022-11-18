@@ -38,6 +38,7 @@ describe('Index Tests', () => {
     CORALOGIX_API_KEY: 'api-key',
     CORALOGIX_LEVEL: 'info',
   };
+  const log = console;
 
   it('invokes index without payload', async () => {
     const resp = await main(new Request('https://localhost/'), {
@@ -48,6 +49,7 @@ describe('Index Tests', () => {
         app: 'my-app',
       },
       env,
+      log,
     });
     assert.strictEqual(resp.status, 204);
   });
@@ -143,6 +145,7 @@ describe('Index Tests', () => {
         app: 'my-app',
       },
       env,
+      log,
     });
     assert.strictEqual(resp.status, 200, await resp.text());
   });
@@ -209,6 +212,7 @@ describe('Index Tests', () => {
         app: 'my-app',
       },
       env,
+      log,
     });
 
     assert.strictEqual(resp.status, 200);
@@ -238,6 +242,7 @@ describe('Index Tests', () => {
         app: 'my-app',
       },
       env: {},
+      log,
     });
 
     assert.strictEqual(resp.status, 500);
@@ -285,6 +290,7 @@ describe('Index Tests', () => {
         app: 'my-app',
       },
       env,
+      log,
     });
 
     assert.strictEqual(resp.status, 500);
