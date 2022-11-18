@@ -63,7 +63,6 @@ async function run(request, context) {
 
     if (!resp.ok) {
       const msg = `Failed to send logs with status ${resp.status}: ${await resp.text()}`;
-      log.warn(msg);
       return new Response(msg, { status: resp.status });
     }
     return resp;

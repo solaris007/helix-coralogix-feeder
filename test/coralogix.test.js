@@ -139,6 +139,6 @@ describe('Coralogix Tests', () => {
       },
     }]);
     assert.strictEqual(resp.status, 500);
-    assert.strictEqual(await resp.text(), 'that went wrong');
+    assert.match(await resp.text(), /^that went wrong/);
   });
 });

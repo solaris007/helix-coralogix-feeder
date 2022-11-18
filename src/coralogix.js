@@ -82,7 +82,8 @@ export class CoralogixLogger {
       }));
       return resp;
     } catch (e) {
-      return new Response(e.message, {
+      const msg = `${e.message}\nlogEntries: ${JSON.stringify(logEntries, 0, 2)}`;
+      return new Response(msg, {
         status: 500,
         headers: {
           'content-type': 'text/plain',
