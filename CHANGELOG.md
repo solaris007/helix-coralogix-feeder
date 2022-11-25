@@ -1,3 +1,10 @@
+## [1.2.3](https://github.com/adobe/helix-coralogix-feeder/compare/v1.2.2...v1.2.3) (2022-11-25)
+
+
+### Bug Fixes
+
+* send unprocessed messages to DLQ ([#18](https://github.com/adobe/helix-coralogix-feeder/issues/18)) ([beb6cb8](https://github.com/adobe/helix-coralogix-feeder/commit/beb6cb81e0d10c846cdcabc927281348c5614a8f))
+
 ## [1.2.2](https://github.com/adobe/helix-coralogix-feeder/compare/v1.2.1...v1.2.2) (2022-11-18)
 
 
