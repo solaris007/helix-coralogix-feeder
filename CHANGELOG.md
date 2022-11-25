@@ -1,3 +1,10 @@
+## [1.2.4](https://github.com/adobe/helix-coralogix-feeder/compare/v1.2.3...v1.2.4) (2022-11-25)
+
+
+### Bug Fixes
+
+* when no log messages remain, don't send ([40f076f](https://github.com/adobe/helix-coralogix-feeder/commit/40f076f3da05c2efecd7dcfb659563211ca97ee4))
+
 ## [1.2.3](https://github.com/adobe/helix-coralogix-feeder/compare/v1.2.2...v1.2.3) (2022-11-25)
 
 
