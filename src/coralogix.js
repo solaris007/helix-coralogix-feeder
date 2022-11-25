@@ -44,26 +44,32 @@ export class CoralogixLogger {
   }
 
   async sendEntries(entries) {
-    const logEntries = entries.map(({ timestamp, extractedFields }) => {
-      const [level, message] = extractedFields.event.split('\t');
-      const text = {
-        inv: {
-          invocationId: extractedFields.request_id || 'n/a',
-          functionName: this._funcName,
-        },
-        message: message.trimEnd(),
-        level: level.toLowerCase(),
-        timestamp: extractedFields.timestamp,
-      };
-      if (this._logStream) {
-        text.logStream = this._logStream;
-      }
-      return {
-        timestamp,
-        text: JSON.stringify(text),
-        severity: LOG_LEVEL_MAPPING[level] || LOG_LEVEL_MAPPING.INFO,
-      };
-    }).filter(({ severity }) => severity >= this._severity);
+    const logEntries = entries
+      .map(({ timestamp, extractedFields }) => {
+        const [level, message] = extractedFields.event.split('\t');
+        const text = {
+          inv: {
+            invocationId: extractedFields.request_id || 'n/a',
+            functionName: this._funcName,
+          },
+          message: message.trimEnd(),
+          level: level.toLowerCase(),
+          timestamp: extractedFields.timestamp,
+        };
+        if (this._logStream) {
+          text.logStream = this._logStream;
+        }
+        return {
+          timestamp,
+          text: JSON.stringify(text),
+          severity: LOG_LEVEL_MAPPING[level] || LOG_LEVEL_MAPPING.INFO,
+        };
+      })
+      .filter(({ severity }) => severity >= this._severity);
+    if (logEntries.length === 0) {
+      return;
+    }
+
     const payload = {
       privateKey: this._apiKey,
       applicationName: this._appName,
@@ -83,7 +89,6 @@ export class CoralogixLogger {
       if (!resp.ok) {
         throw Error(`Failed to send logs with status ${resp.status}: ${await resp.text()}`);
       }
-      return resp;
       /* c8 ignore next 3 */
     } finally {
       await fetchContext.reset();

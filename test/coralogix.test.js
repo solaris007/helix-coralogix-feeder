@@ -40,21 +40,22 @@ describe('Coralogix Tests', () => {
       apiUrl: 'https://www.example.com/',
     });
     const date = new Date('2022-11-10T12:53:47.204Z');
-    const resp = await logger.sendEntries([
-      {
-        timestamp: date.getTime(),
-        extractedFields: {
-          event: 'BLEEP\tthis should end up as INFO message\n',
+    await assert.doesNotReject(
+      async () => logger.sendEntries([
+        {
+          timestamp: date.getTime(),
+          extractedFields: {
+            event: 'BLEEP\tthis should end up as INFO message\n',
+          },
         },
-      },
-      {
-        timestamp: date.getTime(),
-        extractedFields: {
-          event: 'DEBUG\tthis should not be visible\n',
+        {
+          timestamp: date.getTime(),
+          extractedFields: {
+            event: 'DEBUG\tthis should not be visible\n',
+          },
         },
-      },
-    ]);
-    assert.strictEqual(resp.status, 200, await resp.text());
+      ]),
+    );
   });
 
   it('invokes constructor with unknown log level, should be treated as info', async () => {
@@ -72,21 +73,22 @@ describe('Coralogix Tests', () => {
       level: 'chatty',
     });
     const date = new Date('2022-11-10T12:53:47.204Z');
-    const resp = await logger.sendEntries([
-      {
-        timestamp: date.getTime(),
-        extractedFields: {
-          event: 'INFO\tthis should be visible\n',
+    await assert.doesNotReject(
+      async () => logger.sendEntries([
+        {
+          timestamp: date.getTime(),
+          extractedFields: {
+            event: 'INFO\tthis should be visible\n',
+          },
         },
-      },
-      {
-        timestamp: date.getTime(),
-        extractedFields: {
-          event: 'DEBUG\tthis should not be visible\n',
+        {
+          timestamp: date.getTime(),
+          extractedFields: {
+            event: 'DEBUG\tthis should not be visible\n',
+          },
         },
-      },
-    ]);
-    assert.strictEqual(resp.status, 200, await resp.text());
+      ]),
+    );
   });
 
   it('invokes constructor with higher log level, should filter other messages', async () => {
@@ -104,27 +106,45 @@ describe('Coralogix Tests', () => {
       level: 'warn',
     });
     const date = new Date('2022-11-10T12:53:47.204Z');
-    const resp = await logger.sendEntries([
-      {
-        timestamp: date.getTime(),
-        extractedFields: {
-          event: 'WARN\tthis should be visible\n',
+    await assert.doesNotReject(
+      async () => logger.sendEntries([
+        {
+          timestamp: date.getTime(),
+          extractedFields: {
+            event: 'WARN\tthis should be visible\n',
+          },
         },
-      },
-      {
-        timestamp: date.getTime(),
-        extractedFields: {
-          event: 'INFO\tthis should not be visible\n',
+        {
+          timestamp: date.getTime(),
+          extractedFields: {
+            event: 'INFO\tthis should not be visible\n',
+          },
         },
-      },
-      {
-        timestamp: date.getTime(),
-        extractedFields: {
-          event: 'DEBUG\tthis should not be visible, either\n',
+        {
+          timestamp: date.getTime(),
+          extractedFields: {
+            event: 'DEBUG\tthis should not be visible, either\n',
+          },
         },
-      },
-    ]);
-    assert.strictEqual(resp.status, 200, await resp.text());
+      ]),
+    );
+  });
+
+  it('invokes constructor with higher log level, should filter all messages', async () => {
+    const logger = new CoralogixLogger('foo-id', '/services/func/v1', 'app', {
+      level: 'info',
+    });
+    const date = new Date('2022-11-10T12:53:47.204Z');
+    await assert.doesNotReject(
+      async () => logger.sendEntries([
+        {
+          timestamp: date.getTime(),
+          extractedFields: {
+            event: 'DEBUG\tthis should not be visible\n',
+          },
+        },
+      ]),
+    );
   });
 
   it('forwards error when posting throws', async () => {
