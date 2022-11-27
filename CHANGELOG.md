@@ -1,3 +1,10 @@
+## [1.2.5](https://github.com/adobe/helix-coralogix-feeder/compare/v1.2.4...v1.2.5) (2022-11-27)
+
+
+### Bug Fixes
+
+* message with no log level should default to `INFO` ([7092ecf](https://github.com/adobe/helix-coralogix-feeder/commit/7092ecf575086fa72f0ab81535babde1d667079b))
+
 ## [1.2.4](https://github.com/adobe/helix-coralogix-feeder/compare/v1.2.3...v1.2.4) (2022-11-25)
 
 
