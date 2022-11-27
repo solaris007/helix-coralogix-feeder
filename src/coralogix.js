@@ -48,9 +48,7 @@ export class CoralogixLogger {
       .map(({ timestamp, extractedFields }) => {
         let [level, message] = extractedFields.event.split('\t');
         if (message === undefined) {
-          // no level, assume `INFO`
-          message = level;
-          level = 'INFO';
+          [message, level] = ([level, 'INFO']);
         }
         const text = {
           inv: {
