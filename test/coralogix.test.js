@@ -130,7 +130,34 @@ describe('Coralogix Tests', () => {
     );
   });
 
-  it('invokes constructor with higher log level, should filter all messages', async () => {
+  it('sends entry with no log level, should default to INFO', async () => {
+    nock('https://api.coralogix.com')
+      .post('/api/v1/logs')
+      .reply((_, body) => {
+        assert.deepStrictEqual(body.logEntries, [{
+          severity: 3,
+          text: '{"inv":{"invocationId":"n/a","functionName":"/services/func/v1"},"message":"Task timed out after 60.07 seconds","level":"info"}',
+          timestamp: 1668084827204,
+        }]);
+        return [200];
+      });
+    const logger = new CoralogixLogger('foo-id', '/services/func/v1', 'app', {
+      level: 'info',
+    });
+    const date = new Date('2022-11-10T12:53:47.204Z');
+    await assert.doesNotReject(
+      async () => logger.sendEntries([
+        {
+          timestamp: date.getTime(),
+          extractedFields: {
+            event: 'Task timed out after 60.07 seconds\n\n',
+          },
+        },
+      ]),
+    );
+  });
+
+  it('invokes constructor with higher log level, should filter all messages, and nothing sent', async () => {
     const logger = new CoralogixLogger('foo-id', '/services/func/v1', 'app', {
       level: 'info',
     });

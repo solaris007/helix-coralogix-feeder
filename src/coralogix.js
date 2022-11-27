@@ -46,7 +46,12 @@ export class CoralogixLogger {
   async sendEntries(entries) {
     const logEntries = entries
       .map(({ timestamp, extractedFields }) => {
-        const [level, message] = extractedFields.event.split('\t');
+        let [level, message] = extractedFields.event.split('\t');
+        if (message === undefined) {
+          // no level, assume `INFO`
+          message = level;
+          level = 'INFO';
+        }
         const text = {
           inv: {
             invocationId: extractedFields.request_id || 'n/a',
