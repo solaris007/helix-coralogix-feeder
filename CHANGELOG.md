@@ -1,3 +1,10 @@
+## [1.2.6](https://github.com/adobe/helix-coralogix-feeder/compare/v1.2.5...v1.2.6) (2022-11-29)
+
+
+### Bug Fixes
+
+* add retry delays ([#21](https://github.com/adobe/helix-coralogix-feeder/issues/21)) ([a6e8be4](https://github.com/adobe/helix-coralogix-feeder/commit/a6e8be4640036bc8c3489ae908adced974782698))
+
 ## [1.2.5](https://github.com/adobe/helix-coralogix-feeder/compare/v1.2.4...v1.2.5) (2022-11-27)
 
 
