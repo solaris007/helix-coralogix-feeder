@@ -225,7 +225,7 @@ describe('Index Tests', () => {
     );
   });
 
-  it('returns error when environment is bad', async () => {
+  it('returns error when CORALOGIX_API_KEY is missing', async () => {
     const payload = (await gzip(JSON.stringify({
       logEvents: [{
         timestamp: Date.now(),
@@ -237,8 +237,32 @@ describe('Index Tests', () => {
       logStream: '2022/10/28/[356]dbbf94bd5cb34f00aa764103d8ed78f2',
     }))).toString('base64');
 
+    const env = { ...DEFAULT_ENV };
+    delete env.CORALOGIX_API_KEY;
+
     await assert.rejects(
-      async () => main(new Request('https://localhost/'), createContext(payload, {})),
+      async () => main(new Request('https://localhost/'), createContext(payload, env)),
+      /No CORALOGIX_API_KEY set/,
+    );
+  });
+
+  it('returns error when AWS environment is missing', async () => {
+    const payload = (await gzip(JSON.stringify({
+      logEvents: [{
+        timestamp: Date.now(),
+        extractedFields: {
+          event: 'INFO\tmessage\n',
+        },
+      }],
+      logGroup: '/aws/lambda/services--func',
+      logStream: '2022/10/28/[356]dbbf94bd5cb34f00aa764103d8ed78f2',
+    }))).toString('base64');
+
+    const env = { ...DEFAULT_ENV };
+    delete env.AWS_SECRET_ACCESS_KEY;
+
+    await assert.rejects(
+      async () => main(new Request('https://localhost/'), createContext(payload, env)),
       /Missing AWS configuration/,
     );
   });
