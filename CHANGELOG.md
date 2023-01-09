@@ -1,3 +1,10 @@
+## [1.2.9](https://github.com/adobe/helix-coralogix-feeder/compare/v1.2.8...v1.2.9) (2023-01-09)
+
+
+### Bug Fixes
+
+* check CORALOGIX_API_KEY is set ([#34](https://github.com/adobe/helix-coralogix-feeder/issues/34)) ([f86fe46](https://github.com/adobe/helix-coralogix-feeder/commit/f86fe46705413a9a1ae77b057e74fd0aeef52245))
+
 ## [1.2.8](https://github.com/adobe/helix-coralogix-feeder/compare/v1.2.7...v1.2.8) (2023-01-09)
 
 
