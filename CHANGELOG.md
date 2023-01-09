@@ -1,3 +1,10 @@
+## [1.2.8](https://github.com/adobe/helix-coralogix-feeder/compare/v1.2.7...v1.2.8) (2023-01-09)
+
+
+### Bug Fixes
+
+* logging last 4 letters of CORALOGIX_API_KEY ([e961487](https://github.com/adobe/helix-coralogix-feeder/commit/e961487aac2a4bf0e3f168b13bd41ff29080d82e))
+
 ## [1.2.7](https://github.com/adobe/helix-coralogix-feeder/compare/v1.2.6...v1.2.7) (2022-12-25)
 
 
