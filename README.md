@@ -27,7 +27,7 @@ $ aws logs put-subscription-filter \
 The service uses the following environment variables:
 
 | Name  | Description  | Required | Default |
-|-------|--------------|----------|---------|
+|:------|:-------------|:---------|:--------|
 | CORALOGIX_API_KEY | Coralogix Private Key | Yes | - |
 | CORALOGIX_LOG_LEVEL | Log level | No | info |
 
