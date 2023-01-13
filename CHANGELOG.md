@@ -1,3 +1,10 @@
+## [1.2.11](https://github.com/adobe/helix-coralogix-feeder/compare/v1.2.10...v1.2.11) (2023-01-13)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @adobe/helix-deploy to v7.3.11 ([#38](https://github.com/adobe/helix-coralogix-feeder/issues/38)) ([d7aae39](https://github.com/adobe/helix-coralogix-feeder/commit/d7aae399bb9a97ad918a541fddbcf4622a44b625))
+
 ## [1.2.10](https://github.com/adobe/helix-coralogix-feeder/compare/v1.2.9...v1.2.10) (2023-01-12)
 
 
