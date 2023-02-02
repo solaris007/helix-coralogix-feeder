@@ -1,3 +1,10 @@
+## [1.2.15](https://github.com/adobe/helix-coralogix-feeder/compare/v1.2.14...v1.2.15) (2023-02-02)
+
+
+### Bug Fixes
+
+* update helix-deploy to 9.0.3 ([#52](https://github.com/adobe/helix-coralogix-feeder/issues/52)) ([a76dd73](https://github.com/adobe/helix-coralogix-feeder/commit/a76dd73f4fd8f495ecf047b6a4bbc1a182449a03))
+
 ## [1.2.14](https://github.com/adobe/helix-coralogix-feeder/compare/v1.2.13...v1.2.14) (2023-02-01)
 
 
