@@ -19,6 +19,13 @@
 
 * update semantic-release-coralogix to 1.1.15 ([377e1dd](https://github.com/adobe/helix-coralogix-feeder/commit/377e1ddbc29d987882e70360aa435e64d42b8ea2))
 
+## [1.2.16](https://github.com/adobe/helix-coralogix-feeder/compare/v1.2.15...v1.2.16) (2023-02-03)
+
+
+### Bug Fixes
+
+* update semantic-release-coralogix to 1.1.15 ([377e1dd](https://github.com/adobe/helix-coralogix-feeder/commit/377e1ddbc29d987882e70360aa435e64d42b8ea2))
+
 ## [1.2.16](https://github.com/adobe/helix-coralogix-feeder/compare/v1.2.15...v1.2.16) (2023-02-02)
 
 
