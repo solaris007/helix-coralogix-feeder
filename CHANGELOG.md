@@ -1,3 +1,10 @@
+## [1.2.18](https://github.com/adobe/helix-coralogix-feeder/compare/v1.2.17...v1.2.18) (2023-02-14)
+
+
+### Bug Fixes
+
+* **deps:** update adobe fixes ([#59](https://github.com/adobe/helix-coralogix-feeder/issues/59)) ([c621d81](https://github.com/adobe/helix-coralogix-feeder/commit/c621d814c71aff213bd5bb621a08fd04307f8b6d))
+
 ## [1.2.17](https://github.com/adobe/helix-coralogix-feeder/compare/v1.2.16...v1.2.17) (2023-02-03)
 
 
