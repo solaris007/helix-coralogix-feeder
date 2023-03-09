@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/adobe/helix-coralogix-feeder/compare/v1.2.18...v1.3.0) (2023-03-09)
+
+
+### Features
+
+* support custom coralogix subsystem name ([#68](https://github.com/adobe/helix-coralogix-feeder/issues/68)) ([92c3992](https://github.com/adobe/helix-coralogix-feeder/commit/92c399227f4fe1353c609d99a006fffc464f1258))
+
 ## [1.2.18](https://github.com/adobe/helix-coralogix-feeder/compare/v1.2.17...v1.2.18) (2023-02-14)
 
 
