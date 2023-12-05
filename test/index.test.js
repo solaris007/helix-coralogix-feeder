@@ -149,6 +149,59 @@ describe('Index Tests', () => {
     );
   });
 
+  it('allows calling $LATEST version of a function', async () => {
+    const payload = (await gzip(JSON.stringify({
+      logEvents: [
+        {
+          extractedFields: {
+            event: 'INFO\tthis\nis\na\nmessage\n',
+            request_id: '1aa49921-c9b8-401c-9f3a-f22989ab8505',
+            timestamp: '2022-10-25T14:26:45.982Z',
+          },
+          timestamp: 1666708005982,
+        },
+        {
+          extractedFields: {
+            event: 'DEBUG\tlirum\nlarum\n',
+            request_id: '1aa49921-c9b8-401c-9f3a-f22989ab8506',
+            timestamp: '2022-10-25T14:26:45.983Z',
+          },
+          timestamp: 1666708005983,
+        },
+      ],
+      logGroup: '/aws/lambda/services--func',
+      logStream: '2022/10/28/[$LATEST]dbbf94bd5cb34f00aa764103d8ed78f2',
+    }))).toString('base64');
+
+    nock('https://api.coralogix.com/api/v1/')
+      .post('/logs')
+      .reply((_, body) => {
+        assert.strictEqual(body.subsystemName, 'my-services');
+        assert.deepStrictEqual(body.logEntries, [{
+          timestamp: 1666708005982,
+          text: JSON.stringify({
+            inv: {
+              invocationId: '1aa49921-c9b8-401c-9f3a-f22989ab8505',
+              functionName: '/services/func/$LATEST',
+            },
+            message: 'this\nis\na\nmessage',
+            level: 'info',
+            timestamp: '2022-10-25T14:26:45.982Z',
+            logStream: '2022/10/28/[$LATEST]dbbf94bd5cb34f00aa764103d8ed78f2',
+          }),
+          severity: 3,
+        }]);
+        return [200];
+      });
+
+    await assert.doesNotReject(
+      async () => main(
+        new Request('https://localhost/'),
+        createContext(payload, { ...DEFAULT_ENV, CORALOGIX_SUBSYSTEM: 'my-services' }),
+      ),
+    );
+  });
+
   it('defaults to function version if no alias is available', async () => {
     const payload = (await gzip(JSON.stringify({
       logEvents: [

@@ -59,8 +59,12 @@ async function run(request, context) {
     log.info(`Received ${input.logEvents.length} event(s) for [${input.logGroup}][${input.logStream}]`);
 
     const [,,, funcName] = input.logGroup.split('/');
-    const [, funcVersion] = input.logStream.match(/\d{4}\/\d{2}\/\d{2}\/\[(\d+)\]\w+/);
-    const alias = await resolve(context, funcName, funcVersion);
+    const [, funcVersion] = input.logStream.match(/\d{4}\/\d{2}\/\d{2}\/\[(\d+|\$LATEST)\]\w+/);
+
+    let alias;
+    if (funcVersion !== '$LATEST') {
+      alias = await resolve(context, funcName, funcVersion);
+    }
     const [packageName, serviceName] = funcName.split('--');
 
     const logger = new CoralogixLogger(
