@@ -73,6 +73,7 @@ async function run(request, context) {
     return new Response('', { status: 202 });
   } catch (e) {
     log.error(e.message);
+    log.debug('Unexpected problem', e);
 
     try {
       await sendToDLQ(context, input ?? { data: event.awslogs.data });
