@@ -1,3 +1,10 @@
+## [1.3.10](https://github.com/adobe/helix-coralogix-feeder/compare/v1.3.9...v1.3.10) (2023-12-05)
+
+
+### Bug Fixes
+
+* log exception with stack ([b0734c0](https://github.com/adobe/helix-coralogix-feeder/commit/b0734c0331f0dbe9704707a31522bd1eafcd1940))
+
 ## [1.3.9](https://github.com/adobe/helix-coralogix-feeder/compare/v1.3.8...v1.3.9) (2023-10-30)
 
 
