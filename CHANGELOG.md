@@ -1,3 +1,10 @@
+## [1.3.12](https://github.com/adobe/helix-coralogix-feeder/compare/v1.3.11...v1.3.12) (2023-12-05)
+
+
+### Bug Fixes
+
+* allow $LATEST as function version ([2c771c4](https://github.com/adobe/helix-coralogix-feeder/commit/2c771c492c63f465b1ea67d549ed4f691bdcc4d3))
+
 ## [1.3.11](https://github.com/adobe/helix-coralogix-feeder/compare/v1.3.10...v1.3.11) (2023-12-05)
 
 
