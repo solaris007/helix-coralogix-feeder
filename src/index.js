@@ -61,11 +61,14 @@ async function run(request, context) {
     const [,,, funcName] = input.logGroup.split('/');
     const [, funcVersion] = input.logStream.match(/\d{4}\/\d{2}\/\d{2}\/\[(\d+|\$LATEST)\]\w+/);
 
+    log.info(`Function name: ${funcName}, version: ${funcVersion}`);
     let alias;
     if (funcVersion !== '$LATEST') {
       alias = await resolve(context, funcName, funcVersion);
     }
     const [packageName, serviceName] = funcName.split('--');
+
+    log.info(`Package name: ${packageName}, service name: ${serviceName}, alias: ${alias}`);
 
     const logger = new CoralogixLogger(
       apiKey,
@@ -73,7 +76,12 @@ async function run(request, context) {
       app,
       { level, logStream: input.logStream, subsystem, log },
     );
+
+    log.info(`Sending ${input.logEvents.length} event(s) to Coralogix, logger: ${logger}`);
+
     await logger.sendEntries(input.logEvents);
+
+    log.info('Successfully sent logs to Coralogix');
     return new Response('', { status: 202 });
   } catch (e) {
     log.error(e.message);

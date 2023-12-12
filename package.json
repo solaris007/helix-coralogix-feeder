@@ -9,6 +9,7 @@
     "test": "c8 mocha  -i -g 'Post-Deploy' --spec=test/**/*.test.js",
     "test-postdeploy": "mocha -g 'Post-Deploy' --spec=test/**/*.test.js",
     "lint": "eslint .",
+    "logs": "aws logs tail /aws/lambda/spacecat-services--coralogix-feeder",
     "semantic-release": "semantic-release",
     "commit": "git-cz",
     "build": "hedy -v",
