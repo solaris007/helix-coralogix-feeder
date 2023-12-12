@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/adobe/helix-coralogix-feeder/compare/v1.3.12...v1.4.0) (2023-12-12)
+
+
+### Features
+
+* mapped subsystem ([#188](https://github.com/adobe/helix-coralogix-feeder/issues/188)) ([#189](https://github.com/adobe/helix-coralogix-feeder/issues/189)) ([a19c0e9](https://github.com/adobe/helix-coralogix-feeder/commit/a19c0e961739090b2a38a058d8fd04adb52f3ad0))
+
 ## [1.3.12](https://github.com/adobe/helix-coralogix-feeder/compare/v1.3.11...v1.3.12) (2023-12-05)
 
 
