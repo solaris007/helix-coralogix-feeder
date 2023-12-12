@@ -29,32 +29,32 @@ describe('Log Feeder Tests', () => {
 
   describe('mapSubsystem Function', () => {
     it('correctly maps a known alias', () => {
-      const result = mapSubsystem('ci', 'default-subsystem', context);
+      const result = mapSubsystem('ci', context);
       assert.strictEqual(result, 'my-service-dev');
     });
 
-    it('falls back to default subsystem for empty alias', () => {
-      const result = mapSubsystem(null, 'default-subsystem', context);
-      assert.strictEqual(result, 'default-subsystem');
+    it('returns null for empty alias', () => {
+      const result = mapSubsystem(null, context);
+      assert.strictEqual(result, null);
     });
 
-    it('falls back to default subsystem for unknown alias', () => {
-      const result = mapSubsystem('unknown-alias', 'default-subsystem', context);
-      assert.strictEqual(result, 'default-subsystem');
+    it('returns null for unknown alias', () => {
+      const result = mapSubsystem('unknown-alias', context);
+      assert.strictEqual(result, null);
     });
 
-    it('falls back to default subsystem if CORALOGIX_ALIAS_MAPPING is invalid JSON', () => {
+    it('returns null if CORALOGIX_ALIAS_MAPPING is invalid JSON', () => {
       context.env.CORALOGIX_ALIAS_MAPPING = 'invalid-json';
 
-      const result = mapSubsystem('ci', 'default-subsystem', context);
-      assert.strictEqual(result, 'default-subsystem');
+      const result = mapSubsystem('ci', context);
+      assert.strictEqual(result, null);
     });
 
-    it('falls back to default subsystem if CORALOGIX_ALIAS_MAPPING is not set', () => {
+    it('returns null if CORALOGIX_ALIAS_MAPPING is not set', () => {
       delete context.env.CORALOGIX_ALIAS_MAPPING;
 
-      const result = mapSubsystem('ci', 'default-subsystem', context);
-      assert.strictEqual(result, 'default-subsystem');
+      const result = mapSubsystem('ci', context);
+      assert.strictEqual(result, null);
     });
   });
 });

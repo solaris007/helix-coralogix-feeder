@@ -32,7 +32,7 @@ async function run(request, context) {
     invocation: { event },
     env: {
       CORALOGIX_API_KEY: apiKey,
-      CORALOGIX_SUBSYSTEM: subsystem,
+      CORALOGIX_SUBSYSTEM: subsystemDefault,
       CORALOGIX_LOG_LEVEL: level = 'info',
     },
     func: {
@@ -69,13 +69,13 @@ async function run(request, context) {
     const [packageName, serviceName] = funcName.split('--');
 
     // Use mapped subsystem if available, else fallback to default
-    const subsystemMapped = mapSubsystem(alias ?? funcVersion, subsystem, context);
+    const subsystem = mapSubsystem(alias ?? funcVersion, context) || subsystemDefault;
 
     const logger = new CoralogixLogger(
       apiKey,
       `/${packageName}/${serviceName}/${alias ?? funcVersion}`,
       app,
-      { level, logStream: input.logStream, subsystem: subsystemMapped },
+      { level, logStream: input.logStream, subsystem },
     );
     await logger.sendEntries(input.logEvents);
     return new Response('', { status: 202 });

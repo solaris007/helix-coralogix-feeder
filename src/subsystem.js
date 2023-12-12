@@ -16,27 +16,23 @@
  * returns the default subsystem.
  *
  * @param {string} alias The lambda alias.
- * @param {string} defaultSubsystem The default subsystem to fallback to.
  * @param {Object} context The context of the function, containing environment variables.
  *
- * @returns {string} The mapped subsystem or the default subsystem.
+ * @returns {string|null} The mapped subsystem or the default subsystem.
  */
-export function mapSubsystem(alias, defaultSubsystem, context) {
+export function mapSubsystem(alias, context) {
   const { env, log } = context;
 
   if (!alias) {
-    return defaultSubsystem;
+    return null;
   }
 
-  let { CORALOGIX_ALIAS_MAPPING: aliasMapping = '' } = env;
+  const { CORALOGIX_ALIAS_MAPPING: aliasMapping } = env;
 
-  if (aliasMapping) {
-    try {
-      aliasMapping = JSON.parse(aliasMapping);
-    } catch (e) {
-      log.error('Invalid CORALOGIX_ALIAS_MAPPING JSON: ${aliasMappingS}`);
-    }
+  try {
+    return JSON.parse(aliasMapping)[alias] || null;
+  } catch (e) {
+    log.error(`Invalid CORALOGIX_ALIAS_MAPPING JSON: ${aliasMapping}`, e);
+    return null;
   }
-
-  return aliasMapping[alias] || defaultSubsystem;
 }
