@@ -17,6 +17,7 @@ import { helixStatus } from '@adobe/helix-status';
 import { CoralogixLogger } from './coralogix.js';
 import { resolve } from './alias.js';
 import { sendToDLQ } from './dlq.js';
+import { mapSubsystem } from './subsystem.js';
 
 const gunzip = util.promisify(zlib.gunzip);
 
@@ -67,11 +68,14 @@ async function run(request, context) {
     }
     const [packageName, serviceName] = funcName.split('--');
 
+    // Use mapped subsystem if available, else fallback to default
+    const subsystemMapped = mapSubsystem(alias ?? funcVersion, subsystem, context, log);
+
     const logger = new CoralogixLogger(
       apiKey,
       `/${packageName}/${serviceName}/${alias ?? funcVersion}`,
       app,
-      { level, logStream: input.logStream, subsystem },
+      { level, logStream: input.logStream, subsystem: subsystemMapped },
     );
     await logger.sendEntries(input.logEvents);
     return new Response('', { status: 202 });
