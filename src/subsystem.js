@@ -13,12 +13,12 @@
 /**
  * Maps the lambda alias to a subsystem using the provided alias mapping.
  * If the alias is not defined or mapping fails or is not available,
- * returns the default subsystem.
+ * returns null or undefined.
  *
  * @param {string} alias The lambda alias.
  * @param {Object} context The context of the function, containing environment variables.
  *
- * @returns {string|null} The mapped subsystem or the default subsystem.
+ * @returns {string|null|undefined} The mapped subsystem or null / undefined.
  */
 export function mapSubsystem(alias, context) {
   const { env, log } = context;
@@ -30,7 +30,7 @@ export function mapSubsystem(alias, context) {
   const { CORALOGIX_ALIAS_MAPPING: aliasMapping } = env;
 
   try {
-    return JSON.parse(aliasMapping)[alias] || null;
+    return JSON.parse(aliasMapping)[alias];
   } catch (e) {
     log.error(`Invalid CORALOGIX_ALIAS_MAPPING JSON: ${aliasMapping}`, e);
     return null;
