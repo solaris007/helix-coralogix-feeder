@@ -40,7 +40,7 @@ describe('Log Feeder Tests', () => {
 
     it('returns null for unknown alias', () => {
       const result = mapSubsystem('unknown-alias', context);
-      assert.strictEqual(result, null);
+      assert.strictEqual(result, undefined);
     });
 
     it('returns null if CORALOGIX_ALIAS_MAPPING is invalid JSON', () => {
