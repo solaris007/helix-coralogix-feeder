@@ -71,7 +71,7 @@ async function run(request, context) {
       apiKey,
       `/${packageName}/${serviceName}/${alias ?? funcVersion}`,
       app,
-      { level, logStream: input.logStream, subsystem },
+      { level, logStream: input.logStream, subsystem, log },
     );
     await logger.sendEntries(input.logEvents);
     return new Response('', { status: 202 });

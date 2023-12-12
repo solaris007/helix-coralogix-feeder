@@ -43,6 +43,7 @@ export class CoralogixLogger {
       retryDelays = DEFAULT_RETRY_DELAYS,
       logStream,
       subsystem,
+      log,
     } = opts;
 
     this._apiKey = apiKey;
@@ -52,6 +53,7 @@ export class CoralogixLogger {
     this._severity = LOG_LEVEL_MAPPING[level.toUpperCase()] || LOG_LEVEL_MAPPING.INFO;
     this._retryDelays = retryDelays;
     this._logStream = logStream;
+    this._log = log;
 
     this._funcName = funcName;
     this._subsystem = subsystem || funcName.split('/')[1];
@@ -67,6 +69,8 @@ export class CoralogixLogger {
         },
         body: JSON.stringify(payload),
       }));
+      const txt = await resp.text();
+      this._log.info('Sent logs to Coralogix', { status: resp.status, text: txt });
       return resp;
       /* c8 ignore next 3 */
     } finally {
@@ -93,6 +97,7 @@ export class CoralogixLogger {
   }
 
   async sendEntries(entries) {
+    this._log.info('About to send ${entries.length} log entries', { entries});
     const logEntries = entries
       .map(({ timestamp, extractedFields }) => {
         let [level, message] = extractedFields.event.split('\t');
@@ -119,6 +124,7 @@ export class CoralogixLogger {
       })
       .filter(({ severity }) => severity >= this._severity);
     if (logEntries.length === 0) {
+      this._log.info('Unable to extract any log entries!');
       return;
     }
 
