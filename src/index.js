@@ -69,7 +69,7 @@ async function run(request, context) {
     const [packageName, serviceName] = funcName.split('--');
 
     // Use mapped subsystem if available, else fallback to default
-    const subsystemMapped = mapSubsystem(alias ?? funcVersion, subsystem, context, log);
+    const subsystemMapped = mapSubsystem(alias ?? funcVersion, subsystem, context);
 
     const logger = new CoralogixLogger(
       apiKey,
