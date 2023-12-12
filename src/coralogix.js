@@ -97,7 +97,7 @@ export class CoralogixLogger {
   }
 
   async sendEntries(entries) {
-    this._log.info('About to send ${entries.length} log entries', { entries});
+    this._log.info(`About to send ${entries.length} log entries`);
     const logEntries = entries
       .map(({ timestamp, extractedFields }) => {
         let [level, message] = extractedFields.event.split('\t');
