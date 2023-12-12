@@ -22,7 +22,7 @@
     "nodeVersion": 18,
     "target": "aws",
     "name": "spacecat-services/coralogix-feeder@${version}",
-    "awsRole!important": "arn:aws:iam::282898975672:role/spacecat-role-services",
+    "awsRole!important": "arn:aws:iam::282898975672:role/spacecat-role-coralogix-feeder",
     "testUrl": "/_status_check/healthcheck.json",
     "memory": 1024,
     "fastlyServiceId!important": ""
