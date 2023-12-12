@@ -34,7 +34,7 @@ export function mapSubsystem(alias, defaultSubsystem, context) {
     try {
       aliasMapping = JSON.parse(aliasMapping);
     } catch (e) {
-      log.error('Invalid CORALOGIX_ALIAS_MAPPING JSON', e);
+      log.error('Invalid CORALOGIX_ALIAS_MAPPING JSON: ${aliasMappingS}`);
     }
   }
 
